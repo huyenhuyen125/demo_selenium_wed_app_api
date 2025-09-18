@@ -23,7 +23,6 @@ public class Hooks {
         this.context = context;
     }
 
-
     @Before
     public void beforeTest(Scenario scenario) throws IOException {
         context.getDriverManager().getDriver();
@@ -32,13 +31,6 @@ public class Hooks {
         context.getDriverManager().getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
     }
-//    @AfterStep
-//    public void afterStep(Scenario scenario) {
-//        if (scenario.isFailed()) {
-//            new ScreenshotUtils((TestContext) driver).takeScreenshot();
-//        }
-//    }
-
 
     @After
     public void afterTest(Scenario scenario) throws IOException {
@@ -50,6 +42,12 @@ public class Hooks {
         context.getDriverManager().closeDriver();
         System.out.println(">>> Browser closed");
     }
+//    @AfterStep
+//    public void afterStep(Scenario scenario) {
+//        if (scenario.isFailed()) {
+//            new ScreenshotUtils((TestContext) driver).takeScreenshot();
+//        }
+//    }
 
 
 }

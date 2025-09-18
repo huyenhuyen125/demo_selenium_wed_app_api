@@ -20,14 +20,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Chrome
-        run: sudo apt-get install -y google-chrome-stable
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
 
-      - name: Install ChromeDriver
-        run: sudo apt-get install -y chromium-chromedriver
+      - name: Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Verify Chrome versions
+        run: |
+          google-chrome --version
+          chromedriver --version
 
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
       - name: Run Cucumber Tests
-        run: mvn test -Dheadless=true
+        run: mvn test
