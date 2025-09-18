@@ -16,14 +16,20 @@ public class DriverFactory {
     public WebDriver createDriver(){
         try {
             if(driver == null){
+                String headless = System.getProperty("headless", "false");
                 String browser = System.getProperty("BROWSER", "chrome");
                 System.out.println(">>> Browser param: " + browser);
                 switch (browser.toLowerCase()){
                     case "chrome":
                         ChromeOptions chromeOptions = new ChromeOptions();
+                        if ("true".equalsIgnoreCase(headless)) {
+                            chromeOptions.addArguments("--headless=new");
+                            chromeOptions.addArguments("--no-sandbox");
+                            chromeOptions.addArguments("--disable-dev-shm-usage");
+                            chromeOptions.addArguments("--disable-gpu");
+                        }
                         chromeOptions.addArguments("--start-maximized");
                         chromeOptions.addArguments("--incognito");
-                        chromeOptions.addArguments("--headless");
                         driver = new ChromeDriver(chromeOptions);
                        break;
                     case "firefox":
