@@ -16,7 +16,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Maven t
+      - name: Build with Maven
         run: mvn clean install -DskipTests
 
       - name: Run Cucumber Tests
