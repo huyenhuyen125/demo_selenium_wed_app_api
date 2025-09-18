@@ -47,7 +47,7 @@ public class LoginObject extends DynamicPage {
             case "userEmail-label":
                 System.out.println("label_id: " + label_id);
                 System.out.println("label_expected: " + label_expected);
-                verifyText(driver, DynamicUI.DYNAMIC_LABEL_ID, "tr", label_id);
+                verifyText(driver, DynamicUI.DYNAMIC_LABEL_ID, label_expected, label_id);
                 break;
             case "genterWrapper":
                 System.out.println("label_id: " + label_id);

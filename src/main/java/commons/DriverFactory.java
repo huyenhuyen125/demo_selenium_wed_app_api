@@ -23,7 +23,8 @@ public class DriverFactory {
                         ChromeOptions chromeOptions = new ChromeOptions();
                         chromeOptions.addArguments("--start-maximized");
                         chromeOptions.addArguments("--incognito");
-                       driver = new ChromeDriver(chromeOptions);
+                        chromeOptions.addArguments("--headless");
+                        driver = new ChromeDriver(chromeOptions);
                        break;
                     case "firefox":
                         FirefoxOptions firefoxOptions = new FirefoxOptions();
