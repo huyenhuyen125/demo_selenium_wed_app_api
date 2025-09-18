@@ -8,18 +8,21 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 
 public class DriverFactory {
-    private WebDriver driver ;
+    private WebDriver driver;
 
 
-    public WebDriver createDriver(){
+    public WebDriver createDriver() {
         try {
-            if(driver == null){
+            if (driver == null) {
                 String headless = System.getProperty("headless", "false");
                 String browser = System.getProperty("BROWSER", "chrome");
                 System.out.println(">>> Browser param: " + browser);
-                switch (browser.toLowerCase()){
+                switch (browser.toLowerCase()) {
                     case "chrome":
                         ChromeOptions chromeOptions = new ChromeOptions();
                         if ("true".equalsIgnoreCase(headless)) {
@@ -30,42 +33,51 @@ public class DriverFactory {
                         }
                         chromeOptions.addArguments("--start-maximized");
                         chromeOptions.addArguments("--incognito");
-                        driver = new ChromeDriver(chromeOptions);
-                       break;
+                        Path tmpProfileDir = Files.createTempDirectory("chrome-profile");
+                        chromeOptions.addArguments("--user-data-dir=" + tmpProfileDir.toString());
+                        chromeOptions.addArguments("--disable-extensions");
+                        chromeOptions.addArguments("--remote-allow-origins=*");
+                        try {
+                            driver = new ChromeDriver(chromeOptions);
+                            System.out.println(">>> ChromeDriver started OK");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            throw new RuntimeException("Failed to create ChromeDriver: " + e.getMessage(), e);
+                        }
+                        break;
                     case "firefox":
                         FirefoxOptions firefoxOptions = new FirefoxOptions();
                         firefoxOptions.addArguments("--incognito");
-                        driver =  new FirefoxDriver(firefoxOptions);
+                        driver = new FirefoxDriver(firefoxOptions);
                         break;
                     case "edge":
                         EdgeOptions edgeOptions = new EdgeOptions();
                         edgeOptions.addArguments("--incognito");
-                        driver  = new EdgeDriver(edgeOptions);
+                        driver = new EdgeDriver(edgeOptions);
                         break;
                     default:
                         throw new RuntimeException("Browser not supported: " + browser);
                 }
             }
             return driver;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-        finally {
-            Runtime.getRuntime().addShutdownHook(new Thread(new BrowserCleanup())) ;
+        } finally {
+            Runtime.getRuntime().addShutdownHook(new Thread(new BrowserCleanup()));
         }
 
     }
 
-public void closeDriver(){
-        if(driver != null){
+    public void closeDriver() {
+        if (driver != null) {
             System.out.println("close browser");
             //driver.get().quit();
         }
-}
+    }
 
 
-    class BrowserCleanup implements Runnable{
+    class BrowserCleanup implements Runnable {
         @Override
         public void run() {
             closeDriver();
@@ -74,7 +86,7 @@ public void closeDriver(){
 
 
     protected String getUrlByServer(String serverName) {
-      //  ServerList server = ServerList.valueOf(serverName.toUpperCase());
+        //  ServerList server = ServerList.valueOf(serverName.toUpperCase());
 
         switch (serverName.toLowerCase()) {
             case "dev": {
@@ -94,8 +106,6 @@ public void closeDriver(){
         }
         return serverName;
     }
-
-
 
 
 }
