@@ -36,3 +36,14 @@ jobs:
 
       - name: Run Cucumber Tests
         run: mvn test -Dbrowser=chrome -Dheadless=true
+
+        # 5. Generate Allure report
+      - name: Generate Allure Report
+        run: mvn allure:report
+
+          # 6. Upload report as artifact
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
