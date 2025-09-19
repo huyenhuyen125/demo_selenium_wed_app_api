@@ -45,5 +45,5 @@ jobs:
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
-        name: allure-report
-        path: target/site/allure-maven-plugin
+          name: allure-report
+          path: target/site/allure-maven-plugin
