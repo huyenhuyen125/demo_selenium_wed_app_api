@@ -40,7 +40,7 @@ public class DriverFactory {
                         chromeOptions.addArguments("--remote-allow-origins=*");
                         try {
                             driver = new ChromeDriver(chromeOptions);
-                            System.out.println(">>> ChromeDriver started OK");
+                            System.out.println(">>> ChromeDriver started OK dd");
                         } catch (Exception e) {
                             e.printStackTrace();
                             throw new RuntimeException("Failed to create ChromeDriver: " + e.getMessage(), e);
