@@ -35,4 +35,4 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Run Cucumber Tests
-        run: mvn test
+        run: mvn test -Dbrowser=chrome -Dheadless=true

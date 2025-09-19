@@ -22,6 +22,7 @@ public class DriverFactory {
                 String headless = System.getProperty("headless", "false");
                 String browser = System.getProperty("BROWSER", "chrome");
                 System.out.println(">>> Browser param: " + browser);
+                System.out.println(">>> Headless param = " + System.getProperty("headless"));
                 switch (browser.toLowerCase()) {
                     case "chrome":
                         ChromeOptions chromeOptions = new ChromeOptions();
